@@ -1,7 +1,11 @@
 import subprocess
+import sys
+from pathlib import Path
 import csv
 from datetime import datetime
 
+
+BASE_DIR = Path(__file__).resolve().parent
 
 TEST_CASES = [
     {
@@ -41,7 +45,7 @@ def run_test_case(test_case):
     scenario = test_case["scenario"]
 
     result = subprocess.run(
-        ["python3", "src/can_receiver.py", scenario],
+        [sys.executable, str(BASE_DIR / "can_receiver.py"), scenario],
         capture_output=True,
         text=True
     )
@@ -51,7 +55,7 @@ def run_test_case(test_case):
     expected_result = test_case["expected_result"]
     expected_fault = test_case["expected_fault"]
 
-    result_matches = expected_result in output
+    result_matches = f"\n{expected_result}\n" in output and result.returncode == 0
 
     if expected_fault is None:
         fault_matches = "detected" not in output
@@ -64,7 +68,8 @@ def run_test_case(test_case):
 
 
 def generate_test_report(test_results, passed_tests, total_tests):
-    report_path = "reports/test_report.md"
+    report_path = BASE_DIR / "reports" / "test_report.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     overall_result = "PASS" if passed_tests == total_tests else "FAIL"
@@ -90,7 +95,8 @@ def generate_test_report(test_results, passed_tests, total_tests):
 
 
 def generate_csv_log(test_results):
-    log_path = "logs/test_log.csv"
+    log_path = BASE_DIR / "logs" / "test_log.csv"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(log_path, "w", newline="") as log_file:
         fieldnames = [
