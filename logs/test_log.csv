@@ -1,0 +1,6 @@
+timestamp,test_id,scenario,status,expected_result,expected_fault
+2026-10-11 16:13:16,TC_001,normal,PASS,PASS,
+2026-10-11 16:13:16,TC_002,undervoltage,PASS,FAIL,UNDERVOLTAGE
+2026-10-11 16:13:16,TC_003,overcurrent,PASS,FAIL,OVERCURRENT
+2026-10-11 16:13:16,TC_004,overtemperature,PASS,FAIL,OVERTEMPERATURE
+2026-10-11 16:13:16,TC_005,low_soc,PASS,FAIL,LOW_SOC
