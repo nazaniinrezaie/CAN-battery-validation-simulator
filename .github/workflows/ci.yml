@@ -1,3 +1,4 @@
+
 name: CAN Battery Validation CI
 
 on:
@@ -17,5 +18,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run battery tests
+      - name: Install pytest
+        run: python3 -m pip install pytest
+
+      - name: Run battery scenario tests
         run: python3 src/test_runner.py
+
+      - name: Run pytest boundary tests
+        run: python3 -m pytest tests/ -v
