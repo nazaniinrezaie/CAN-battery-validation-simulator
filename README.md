@@ -1,7 +1,7 @@
 
 # Battery CAN Validation Simulator
 
-A Python-based learning project that simulates battery ECU signals and validates fault-detection logic.
+A Python-based learning project that simulates battery ECU signals and validates fault-detection logic using automated software testing.
 
 The project represents CAN messages as Python dictionaries with CAN ID labels. It does not transmit frames on a physical or virtual CAN bus.
 
@@ -13,6 +13,7 @@ The project represents CAN messages as Python dictionaries with CAN ID labels. I
 - Five test scenarios: normal, undervoltage, overcurrent, overtemperature, and low SOC.
 - Automated verification with Python and Pytest.
 - Boundary-value and negative testing.
+- Receiver workflow testing using Pytest.
 - Requirements documentation and test traceability.
 - GitHub Actions continuous integration (CI).
 - Automated Markdown test reports and CSV logs.
@@ -49,7 +50,7 @@ Press Ctrl+C to stop the continuous simulation.
 
 ## Automated Testing
 
-The project includes two automated testing approaches:
+The project includes two automated testing approaches.
 
 ### Battery Scenario Testing
 
@@ -57,18 +58,20 @@ Five scenarios validate the receiver's behavior against expected results.
 
 A `FAIL` battery validation result is expected for fault scenarios and does not mean the automated test failed.
 
-### Pytest Unit Testing
+### Pytest Testing
 
-The project currently includes 23 passing Pytest tests covering:
+The project currently includes **27 passing Pytest tests**, covering:
 
 - Fault detection and boundary conditions.
-- Scenario selection.
-- Invalid scenario handling.
+- Scenario selection and invalid scenario handling.
 - Battery voltage and current decoding.
 - Battery temperature decoding.
 - Battery SOC decoding.
 - Fault-code interpretation.
 - Unknown fault-code handling.
+- Heartbeat message decoding.
+- Main receiver workflow testing for normal and overtemperature scenarios.
+- Default scenario selection when no command-line argument is provided.
 
 Run all Pytest tests:
 
@@ -78,7 +81,9 @@ python3 -m pytest tests/ -v
 
 ## Code Coverage
 
-Statement coverage of `src/can_receiver.py` reached 55% in local testing, with 23 passing Pytest tests.
+The project achieved **99% statement coverage** of `src/can_receiver.py` in local testing, with 27 passing Pytest tests.
+
+Coverage increased from 55% to 99% after adding heartbeat decoding and main receiver workflow tests.
 
 Install testing dependencies:
 
@@ -92,7 +97,14 @@ Measure coverage:
 python3 -m pytest tests/ --cov=src.can_receiver --cov-report=term-missing
 ```
 
-Coverage is being improved incrementally by identifying untested code and designing additional test cases.
+The remaining uncovered statement is the direct-execution entry point:
+
+```python
+if __name__ == "__main__":
+    main()
+```
+
+Coverage is measured for the receiver module, not the entire project. High statement coverage does not guarantee complete functional correctness.
 
 ## Continuous Integration
 
@@ -102,11 +114,13 @@ The CI workflow includes:
 
 - Python environment setup.
 - Execution of five battery scenario tests.
-- Execution of Pytest tests.
+- Execution of the Pytest test suite.
 
 Workflow configuration:
 
 `.github/workflows/ci.yml`
+
+The GitHub Actions workflow completed successfully for commit `063f4c1`, which includes the new heartbeat and receiver workflow tests.
 
 ## Scenario Expectations
 
@@ -147,7 +161,9 @@ can-battery-test-automation/
 │   ├── test_temperature.py
 │   ├── test_soc.py
 │   ├── test_scenarios.py
-│   └── test_decoder.py
+│   ├── test_decoder.py
+│   ├── test_heartbeat.py
+│   └── test_main.py
 ├── reports/
 ├── logs/
 ├── .gitignore
@@ -168,6 +184,6 @@ can-battery-test-automation/
 
 This is a software simulation and verification practice project.
 
-It demonstrates test design, fault detection, signal decoding, boundary-value analysis, requirements traceability, and automated testing.
+It demonstrates test design, fault detection, signal decoding, boundary-value analysis, requirements traceability, receiver workflow testing, and automated testing.
 
 It does not use a physical CAN interface, external hardware, or real CAN bus communication.
