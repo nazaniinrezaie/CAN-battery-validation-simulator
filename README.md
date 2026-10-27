@@ -210,3 +210,33 @@ Latest local test result: 30 passed.
 Note: CSV validation checks report structure and
 data consistency. It does not independently verify
 the correctness of battery fault detection.
+
+## Requirements Traceability Verification
+
+The project includes automated verification of the
+Requirements Traceability Matrix (RTM) using Pytest.
+
+The RTM validation tests check:
+
+- Presence of required system requirement IDs
+- Existence of referenced test files
+- Valid RTM row structure
+- Non-empty test case references
+
+### Run RTM Tests
+
+```bash
+python3 -m pytest tests/test_traceability.py -v
+```
+
+### Current Verification Status
+
+- Documented system requirements: 4
+- Requirements linked to test files: 4
+- Documented requirement linkage coverage: 100%
+- Total automated tests: 33
+- Latest local result: 33 passed
+
+Note: RTM validation checks documented links and file
+existence. It does not yet verify that individual test
+case IDs correspond to executable test functions.
