@@ -46,3 +46,51 @@ Automated testing using Boundary Value Analysis.
 - Tests passed: 3
 - Tests failed: 0
 - Status: PASSED
+
+## SYS-003 — Overtemperature Detection
+
+The system shall detect an OVERTEMPERATURE fault
+when the measured battery temperature exceeds 60.0°C.
+
+### Verification Method
+
+Automated testing using Boundary Value Analysis.
+
+| Test ID | Input Temperature | Expected Result |
+|---|---|---|
+| TC-TEMP-001 | 59.9°C | No OVERTEMPERATURE |
+| TC-TEMP-002 | 60.0°C | No OVERTEMPERATURE |
+| TC-TEMP-003 | 60.1°C | OVERTEMPERATURE detected |
+
+### Verification Result
+
+- Test framework: pytest
+- Test file: tests/test_temperature.py
+- Tests executed: 3
+- Tests passed: 3
+- Tests failed: 0
+- Status: PASSED
+
+## SYS-004 — Low SOC Detection
+
+The system shall detect a LOW_SOC fault when
+the battery State of Charge (SOC) is below 10%.
+
+### Verification Method
+
+Automated testing using Boundary Value Analysis.
+
+| Test ID | Input SOC | Expected Result |
+|---|---|---|
+| TC-SOC-001 | 9.9% | LOW_SOC detected |
+| TC-SOC-002 | 10.0% | No LOW_SOC detected |
+| TC-SOC-003 | 10.1% | No LOW_SOC detected |
+
+### Verification Result
+
+- Test framework: pytest
+- Test file: tests/test_soc.py
+- Tests executed: 3
+- Tests passed: 3
+- Tests failed: 0
+- Status: PASSED
