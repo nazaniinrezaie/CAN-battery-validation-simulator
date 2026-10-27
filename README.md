@@ -187,3 +187,26 @@ This is a software simulation and verification practice project.
 It demonstrates test design, fault detection, signal decoding, boundary-value analysis, requirements traceability, receiver workflow testing, and automated testing.
 
 It does not use a physical CAN interface, external hardware, or real CAN bus communication.
+
+## CSV Report Validation
+
+The project includes automated CSV report validation
+using Python and Pytest.
+
+The validation tests check:
+
+- Required CSV report columns
+- Duplicate test IDs within the same timestamp
+- Valid PASS/FAIL values in report fields
+
+### Run the Tests
+
+```bash
+python3 -m pytest tests/ -q
+```
+
+Latest local test result: 30 passed.
+
+Note: CSV validation checks report structure and
+data consistency. It does not independently verify
+the correctness of battery fault detection.
