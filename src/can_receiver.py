@@ -46,6 +46,21 @@ def decode_battery_status_message(message):
 
     return voltage, current
 
+def safe_decode_battery_status_message(message):
+    try:
+        voltage, current = decode_battery_status_message(message)
+        return {
+            "status": "OK",
+            "voltage": voltage,
+            "current": current
+        }
+
+    except (KeyError, TypeError, ValueError) as error:
+        return {
+            "status": "INVALID_MESSAGE",
+            "error": str(error)
+        }
+
 
 def decode_battery_thermal_message(message):
     temperature_raw = message["signals"]["temperature"]
